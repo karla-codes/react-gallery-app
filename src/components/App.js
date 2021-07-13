@@ -1,14 +1,25 @@
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import SearchForm from './SearchForm';
 import Nav from './Nav';
 import PhotoContainer from './PhotoContainer';
+import apiKey from '../config';
 
 function App() {
+  // const key = apiKey;
+
   return (
-    <div className="container">
-      <SearchForm />
-      <Nav />
-      <PhotoContainer />
-    </div>
+    <BrowserRouter>
+      <div className="container">
+        <SearchForm />
+        <Nav />
+        <Switch>
+          <Route exact path="/" component={PhotoContainer} />
+          <Route path="/cats" component={PhotoContainer} />
+          <Route path="/dogs" component={PhotoContainer} />
+          <Route path="/computers" component={PhotoContainer} />
+        </Switch>
+      </div>
+    </BrowserRouter>
   );
 }
 
