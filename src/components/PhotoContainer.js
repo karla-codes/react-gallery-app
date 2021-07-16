@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import NotFound from './NotFound';
 import Photo from './Photo';
 
+/**
+ * Displays images or error pages based on the current route path
+ */
 class PhotoContainer extends Component {
   render() {
     if (this.props.topic) {

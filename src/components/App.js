@@ -20,7 +20,7 @@ class App extends Component {
       images: [],
       topic: '', // topic pulled from search request, need to send to PhotoContainer to update title
       searchData: '', // data response from search request
-      loading: '',
+      loading: '', // indicates whether a search request is loading
     };
   }
 
@@ -30,6 +30,11 @@ class App extends Component {
     });
   };
 
+  /**
+   * Fetches data baed on user search query
+   *
+   * @param {string} topic
+   */
   requestSearchTopic = topic => {
     this.setState({ loading: true }, () => {
       axios
@@ -47,6 +52,9 @@ class App extends Component {
     });
   };
 
+  /**
+   * Fetches data for three different topics
+   */
   componentDidMount() {
     const requestOne = axios.get(
       `${url}?method=flickr.photos.search&tags=${topicOne}&per_page=24&format=json&nojsoncallback=1&api_key=${key}`
