@@ -36,10 +36,15 @@ class PhotoContainer extends Component {
             </div>
           );
         } else {
-          return <div className="photo-container"></div>;
+          return (
+            <div className="photo-container">
+              <h1>Loading...</h1>
+            </div>
+          );
         }
       } else {
         let images = this.props.searchData;
+
         if (images.length > 0) {
           const topic = this.props.topic;
           return (
@@ -59,7 +64,7 @@ class PhotoContainer extends Component {
             </div>
           );
         } else {
-          return <div className="photo-container"></div>;
+          return <NotFound />;
         }
       }
     } else {
