@@ -4,7 +4,6 @@ import Photo from './Photo';
 
 class PhotoContainer extends Component {
   render() {
-    console.log(this.props);
     if (this.props.topic) {
       if (this.props.images) {
         if (this.props.images.length > 0) {
@@ -18,7 +17,6 @@ class PhotoContainer extends Component {
             images = this.props.images[2];
           }
 
-          console.log(images);
           return (
             <div className="photo-container">
               <h2>{topic}</h2>
@@ -27,7 +25,6 @@ class PhotoContainer extends Component {
                   const server = image.server;
                   const key = image.id;
                   const secret = image.secret;
-                  console.log(this.props.path);
                   return (
                     <Photo server={server} key={key} secret={secret} id={key} />
                   );
@@ -38,33 +35,44 @@ class PhotoContainer extends Component {
         } else {
           return (
             <div className="photo-container">
-              <h1>Loading...</h1>
+              <h2>Loading...</h2>
             </div>
           );
         }
       } else {
         let images = this.props.searchData;
-
-        if (images.length > 0) {
-          const topic = this.props.topic;
+        if (this.props.loading) {
           return (
             <div className="photo-container">
-              <h2>{topic}</h2>
-              <ul>
-                {images.map(image => {
-                  const server = image.server;
-                  const key = image.id;
-                  const secret = image.secret;
-                  console.log(this.props.path);
-                  return (
-                    <Photo server={server} key={key} secret={secret} id={key} />
-                  );
-                })}
-              </ul>
+              <h2>Loading...</h2>
             </div>
           );
         } else {
-          return <NotFound />;
+          if (images.length > 0) {
+            const topic = this.props.topic;
+            return (
+              <div className="photo-container">
+                <h2>{topic}</h2>
+                <ul>
+                  {images.map(image => {
+                    const server = image.server;
+                    const key = image.id;
+                    const secret = image.secret;
+                    return (
+                      <Photo
+                        server={server}
+                        key={key}
+                        secret={secret}
+                        id={key}
+                      />
+                    );
+                  })}
+                </ul>
+              </div>
+            );
+          } else {
+            return <NotFound />;
+          }
         }
       }
     } else {

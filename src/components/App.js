@@ -4,7 +4,7 @@ import axios from 'axios';
 import SearchFormWithRouter from './SearchForm';
 import Nav from './Nav';
 import PhotoContainer from './PhotoContainer';
-import NotFound from './NotFound';
+import Error404 from './Error404';
 import apiKey from '../config';
 
 const key = apiKey;
@@ -20,6 +20,7 @@ class App extends Component {
       images: [],
       topic: '', // topic pulled from search request, need to send to PhotoContainer to update title
       searchData: '', // data response from search request
+      loading: '',
     };
   }
 
@@ -30,15 +31,20 @@ class App extends Component {
   };
 
   requestSearchTopic = topic => {
-    axios
-      .get(
-        `${url}?method=flickr.photos.search&tags=${topic}&per_page=24&format=json&nojsoncallback=1&api_key=${key}`
-      )
-      .then(response => {
-        const responseData = response.data;
-        this.setState({ searchData: responseData.photos.photo });
-      })
-      .catch(error => console.log(error.message));
+    this.setState({ loading: true }, () => {
+      axios
+        .get(
+          `${url}?method=flickr.photos.search&tags=${topic}&per_page=24&format=json&nojsoncallback=1&api_key=${key}`
+        )
+        .then(response => {
+          const responseData = response.data;
+          this.setState({
+            searchData: responseData.photos.photo,
+            loading: false,
+          });
+        })
+        .catch(error => console.log(error.message));
+    });
   };
 
   componentDidMount() {
@@ -121,11 +127,12 @@ class App extends Component {
                 <PhotoContainer
                   searchData={this.state.searchData}
                   topic={this.state.topic}
+                  loading={this.state.loading}
                   path={match.path}
                 />
               )}
             />
-            <Route component={NotFound} />
+            <Route component={Error404} />
           </Switch>
         </div>
       </BrowserRouter>
