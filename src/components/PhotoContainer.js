@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
 import NotFound from './NotFound';
 import Photo from './Photo';
 
@@ -6,6 +7,18 @@ import Photo from './Photo';
  * Displays images or error pages based on the current route path
  */
 class PhotoContainer extends Component {
+  // updates page with content fetched from search query
+  componentDidUpdate(prevProps) {
+    const currentTopic = this.props.match.params.topic;
+    if (
+      prevProps.location.pathname !== this.props.location.pathname &&
+      currentTopic
+    ) {
+      this.props.requestSearchTopic(currentTopic);
+      this.props.updateTopic(currentTopic);
+    }
+  }
+
   render() {
     if (this.props.topic) {
       if (this.props.images) {
@@ -84,4 +97,4 @@ class PhotoContainer extends Component {
   }
 }
 
-export default PhotoContainer;
+export default withRouter(PhotoContainer);

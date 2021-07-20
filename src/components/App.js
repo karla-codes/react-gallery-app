@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
-import SearchFormWithRouter from './SearchForm';
+import SearchForm from './SearchForm';
 import Nav from './Nav';
 import PhotoContainer from './PhotoContainer';
 import Error404 from './Error404';
@@ -31,10 +31,11 @@ class App extends Component {
   };
 
   /**
-   * Fetches data baed on user search query
+   * Fetches data based on user search query
    *
    * @param {string} topic
    */
+
   requestSearchTopic = topic => {
     this.setState({ loading: true }, () => {
       axios
@@ -88,14 +89,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="container">
-          <Route
-            render={() => (
-              <SearchFormWithRouter
-                updateTopic={this.updateTopic}
-                requestSearchTopic={this.requestSearchTopic}
-              />
-            )}
-          />
+          <Route render={() => <SearchForm updateTopic={this.updateTopic} />} />
           <Nav />
           <Switch>
             <Route exact path="/" render={() => <Redirect to="cats" />} />
@@ -133,6 +127,8 @@ class App extends Component {
               path="/search/:topic"
               render={({ match }) => (
                 <PhotoContainer
+                  requestSearchTopic={this.requestSearchTopic}
+                  updateTopic={this.updateTopic}
                   searchData={this.state.searchData}
                   topic={this.state.topic}
                   loading={this.state.loading}

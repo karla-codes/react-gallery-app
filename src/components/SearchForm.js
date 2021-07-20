@@ -13,7 +13,6 @@ class SearchForm extends Component {
     e.preventDefault();
     let topic = this.state.topic;
     let path = `/search/${topic}`;
-    this.props.requestSearchTopic(topic);
     this.props.updateTopic(topic);
     this.props.history.push(path);
     e.target.firstElementChild.value = '';
@@ -50,6 +49,4 @@ class SearchForm extends Component {
   }
 }
 
-const SearchFormWithRouter = withRouter(SearchForm);
-
-export default SearchFormWithRouter;
+export default withRouter(SearchForm);
